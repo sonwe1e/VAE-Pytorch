@@ -2,9 +2,9 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 import torch
 import cv2
-from Model import CVAE
+from MNISTModel import CVAE
 import torch.nn.functional as F
-from Data import get_data
+from Data import get_digit_data
 from utils import label2onehot
 torch.set_float32_matmul_precision('high')
 
@@ -45,7 +45,7 @@ class PL(pl.LightningModule):
         return torch.optim.AdamW(self.parameters(), lr=2e-4)
 
 if __name__ == '__main__':
-    train_loader, val_loader = get_data()
+    train_loader, val_loader = get_digit_data()
     model = PL()
     checkpoint_callback = ModelCheckpoint(
         monitor='val_loss',

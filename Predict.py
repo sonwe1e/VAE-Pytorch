@@ -1,7 +1,7 @@
 import cv2
 import torch
 from collections import OrderedDict
-from Model import CVAE
+from MNISTModel import CVAE
 from utils import label2onehot
 
 model = CVAE().cuda(3)
