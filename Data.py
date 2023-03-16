@@ -19,7 +19,10 @@ def get_attr():
     attr_label = [[int(j) for j in i] for i in attr_label]
     return img_name, attr_label
 
-transform = transforms.Compose([transforms.ToTensor()])
+transform = transforms.Compose([
+    transforms.ToPILImage(),
+    transforms.Resize((128, 128)),
+    transforms.ToTensor()])
 
 def get_digit_data():
     # 训练集
@@ -82,7 +85,7 @@ def get_face_data():
                             shuffle=True)
     ValidLoader = DataLoader(dataset=valid_data,
                             batch_size=512, num_workers=40,
-                            shuffle=True)
+                            shuffle=False)
     return TrainLoader, ValidLoader
 
 if __name__ == '__main__':
