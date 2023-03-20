@@ -2,3 +2,8 @@
 /lightning_logs/
 /__pycache__/
 checkpoints/
+checkpoints/cvae-epoch=212-val_loss=13419.76.ckpt
+__pycache__/Data.cpython-39.pyc
+__pycache__/utils.cpython-39.pyc
+/FromX/
+/FromZ/

@@ -21,7 +21,7 @@ def get_attr():
 
 transform = transforms.Compose([
     transforms.ToPILImage(),
-    transforms.Resize((128, 128)),
+    transforms.Resize((256, 256)),
     transforms.ToTensor()])
 
 def get_digit_data():
@@ -38,12 +38,12 @@ def get_digit_data():
 
     # 定义训练数据的迭代器
     train_loader = DataLoader(dataset=train_dataset,
-                            batch_size=512, num_workers=40,
+                            batch_size=512, num_workers=16,
                             shuffle=True)
 
     # 定义测试数据的迭代器
     test_loader = DataLoader(dataset=test_dataset,
-                            batch_size=512, num_workers=40,
+                            batch_size=512, num_workers=16,
                             shuffle=False)
 
     return train_loader, test_loader
@@ -81,10 +81,10 @@ def get_face_data():
     train_data = FaceDataset(transform, 'Train')
     valid_data = FaceDataset(transform, 'Valid')
     TrainLoader = DataLoader(dataset=train_data,
-                            batch_size=512, num_workers=40,
+                            batch_size=256, num_workers=16,
                             shuffle=True)
     ValidLoader = DataLoader(dataset=valid_data,
-                            batch_size=512, num_workers=40,
+                            batch_size=512, num_workers=16,
                             shuffle=False)
     return TrainLoader, ValidLoader
 
