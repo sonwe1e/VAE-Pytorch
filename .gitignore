@@ -3,3 +3,10 @@
 /__pycache__/
 checkpoints/
 checkpoints/cvae-epoch=212-val_loss=13419.76.ckpt
+<<<<<<< HEAD
+=======
+__pycache__/Data.cpython-39.pyc
+__pycache__/utils.cpython-39.pyc
+/FromX/
+/FromZ/
+>>>>>>> 28bb9bc1bc376b70c11fdafe082c2419e2de37ec
