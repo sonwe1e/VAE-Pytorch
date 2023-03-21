@@ -37,17 +37,26 @@ class FaceVAE(nn.Module):
     def __init__(self, Attr=40):
         super(FaceVAE, self).__init__()
         self.encoder = timm.create_model('resnet18', pretrained=True, features_only=True)
-        channel_list = [128+Attr, 256, 128, 64, 32, 16]
+        channel_list = [Attr*2, 256, 128, 64, 32, 16]
         self.decoder = nn.Sequential(
-            UpBlock(channel_list[0], channel_list[1]),
+            nn.Conv2d(Attr*2, channel_list[1], 1, 1, 0),
+            nn.PixelShuffle(2),
+            nn.Conv2d(channel_list[1] // 4, channel_list[1], 3, 1, 1),
+            nn.InstanceNorm2d(channel_list[1]),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.PixelShuffle(4),
+            nn.Conv2d(channel_list[1] // 16, channel_list[1], 3, 1, 1),
+            nn.InstanceNorm2d(channel_list[1]),
+            nn.LeakyReLU(0.2, inplace=True),
+            UpBlock(channel_list[1], channel_list[1]),
             UpBlock(channel_list[1], channel_list[2]),
             UpBlock(channel_list[2], channel_list[3]),
             UpBlock(channel_list[3], channel_list[4]),
             UpBlock(channel_list[4], channel_list[5]),
             nn.Conv2d(channel_list[5], 3, 1, 1, 0),
             nn.Tanh())
-        self.mu_conv = nn.Conv2d(512, 128, 1, 1, 0)
-        self.logvar_conv = nn.Conv2d(512, 128, 1, 1, 0)
+        self.mu_conv = nn.Conv2d(512, Attr, 8, 8, 0)
+        self.logvar_conv = nn.Conv2d(512, Attr, 8, 8, 0)
         
     def reparameter(self, mu, logvar):
         std = torch.exp(0.5 * logvar)
@@ -56,9 +65,9 @@ class FaceVAE(nn.Module):
     
     def forward(self, data, y):
         x = self.encoder(data)[-1]
-        Attr = y.unsqueeze(2).unsqueeze(3).repeat(1, 1, x.shape[2], x.shape[3])
         mu = self.mu_conv(x)
         logvar = self.logvar_conv(x)
+        Attr = y.unsqueeze(2).unsqueeze(3).repeat(1, 1, mu.shape[2], mu.shape[3])
         z = self.reparameter(mu, logvar)
         z = torch.cat([z, Attr], dim=1)
         for m in self.decoder:
