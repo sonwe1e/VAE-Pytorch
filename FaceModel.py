@@ -54,24 +54,15 @@ class FaceVAE(nn.Module):
             nn.Conv2d(channel_list[1] // 16, channel_list[1], 3, 1, 1),
             nn.InstanceNorm2d(channel_list[1]),
             nn.LeakyReLU(0.2, inplace=True),
-<<<<<<< HEAD
             UpBlock(channel_list[1], channel_list[1]),
-=======
-            # UpBlock(channel_list[1], channel_list[1]),
->>>>>>> 28bb9bc1bc376b70c11fdafe082c2419e2de37ec
             UpBlock(channel_list[1], channel_list[2]),
             UpBlock(channel_list[2], channel_list[3]),
             UpBlock(channel_list[3], channel_list[4]),
             UpBlock(channel_list[4], channel_list[5]),
             nn.Conv2d(channel_list[5], 3, 1, 1, 0),
             nn.Tanh())
-<<<<<<< HEAD
-        self.mu_conv = nn.Conv2d(512, Attr, 8, 8, 0)
-        self.logvar_conv = nn.Conv2d(512, Attr, 8, 8, 0)
-=======
-        self.mu_conv = nn.Conv2d(512, Attr*3, 4, 4, 0)
-        self.logvar_conv = nn.Conv2d(512, Attr*3, 4, 4, 0)
->>>>>>> 28bb9bc1bc376b70c11fdafe082c2419e2de37ec
+        self.mu_conv = nn.Conv2d(512, Attr*3, 8, 8, 0)
+        self.logvar_conv = nn.Conv2d(512, Attr*3, 8, 8, 0)
         
     def reparameter(self, mu, logvar):
         std = torch.exp(0.5 * logvar)
@@ -90,7 +81,7 @@ class FaceVAE(nn.Module):
     
 if __name__ == '__main__':
     model = FaceVAE()
-    x = torch.rand(2, 3, 128, 128)
+    x = torch.rand(2, 3, 256, 256)
     y = torch.rand(2, 40)
     out = model(x, y)
     for i in out:

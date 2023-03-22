@@ -7,6 +7,21 @@ checkpoints/cvae-epoch=212-val_loss=13419.76.ckpt
 =======
 __pycache__/Data.cpython-39.pyc
 __pycache__/utils.cpython-39.pyc
+<<<<<<< HEAD
 /FromX/
 /FromZ/
 >>>>>>> 28bb9bc1bc376b70c11fdafe082c2419e2de37ec
+=======
+./FromX/
+./FromZ/
+8/0.png
+8/1.png
+8/2.png
+8/3.png
+8/4.png
+8/5.png
+8/6.png
+8/7.png
+8/8.png
+8/9.png
+>>>>>>> 583a7ee3e7e995197eadef43c1eb95bceec27d02

@@ -21,7 +21,7 @@ class PL(pl.LightningModule):
         x, y = batch
         output = self.model(x, y)
         x_hat, x, mu, logvar = output
-        loss = F.mse_loss(x_hat, x, reduction='sum') -10 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+        loss = F.mse_loss(x_hat, x, reduction='sum') -1 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
         self.log('train_loss', loss)
         return loss
 
@@ -29,11 +29,11 @@ class PL(pl.LightningModule):
         x, y = batch
         output = self.model(x, y)
         x_hat, x, mu, logvar = output
-        loss = F.mse_loss(x_hat, x, reduction='sum') -10 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+        loss = F.mse_loss(x_hat, x, reduction='sum') -1 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
         # class_feature = torch.arange(10).reshape(10, 1).cuda()
         # class_feature = label2onehot(class_feature, 10)
-        class_feature = torch.ones((10, 40, 4, 4)).cuda()
-        test_z = torch.randn((10, 128, 4, 4), device='cuda')
+        class_feature = torch.sign(torch.randn((10, 40, 1, 1), device=self.device)-0.7)
+        test_z = torch.randn((10, 120, 1, 1), device=self.device)
         test_z = torch.cat([test_z, class_feature], dim=1)
         test_z = self.model.decoder(test_z)
         for i in range(10):
@@ -42,6 +42,7 @@ class PL(pl.LightningModule):
             cv2.imwrite(f'FromZ/{i}.png', 255*test_z[i].permute(1, 2, 0).float().cpu().detach().numpy())
         self.log('val_loss', loss)
         self.log('mu', torch.mean(mu), prog_bar=True)
+        self.log('logvar', torch.mean(logvar), prog_bar=True)
         return loss
 
     def configure_optimizers(self):
@@ -59,6 +60,7 @@ if __name__ == '__main__':
         save_top_k=1,
         mode='min',
     )
-    trainer = pl.Trainer(max_epochs=1000, callbacks=[checkpoint_callback], accelerator='gpu', devices=[4])
+    trainer = pl.Trainer(max_epochs=1000, callbacks=[checkpoint_callback],
+                         accelerator='gpu', devices=[1])
     print('Start training...')
     trainer.fit(model, train_loader, val_loader)
