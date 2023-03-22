@@ -37,15 +37,9 @@ class FaceVAE(nn.Module):
     def __init__(self, Attr=40):
         super(FaceVAE, self).__init__()
         self.encoder = timm.create_model('resnet18', pretrained=True, features_only=True)
-<<<<<<< HEAD
-        channel_list = [Attr*2, 256, 128, 64, 32, 16]
-        self.decoder = nn.Sequential(
-            nn.Conv2d(Attr*2, channel_list[1], 1, 1, 0),
-=======
         channel_list = [Attr*4, 256, 128, 64, 32, 16]
         self.decoder = nn.Sequential(
             nn.Conv2d(Attr*4, channel_list[1], 1, 1, 0),
->>>>>>> 28bb9bc1bc376b70c11fdafe082c2419e2de37ec
             nn.PixelShuffle(2),
             nn.Conv2d(channel_list[1] // 4, channel_list[1], 3, 1, 1),
             nn.InstanceNorm2d(channel_list[1]),
