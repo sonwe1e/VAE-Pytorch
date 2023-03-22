@@ -84,7 +84,7 @@ def get_face_data():
                             batch_size=128, num_workers=16,
                             shuffle=True)
     ValidLoader = DataLoader(dataset=valid_data,
-                            batch_size=512, num_workers=16,
+                            batch_size=128, num_workers=16,
                             shuffle=False)
     return TrainLoader, ValidLoader
 
