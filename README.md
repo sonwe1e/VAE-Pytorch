@@ -1,4 +1,4 @@
-# CVAE-MNIST
+# CVAE-Exercise
 Implementation for VAE in PyTorch
 
 ### Conditional Variational Autoencoder (CVAE)
