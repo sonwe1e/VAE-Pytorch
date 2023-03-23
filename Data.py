@@ -81,7 +81,11 @@ def get_face_data():
     train_data = FaceDataset(transform, 'Train')
     valid_data = FaceDataset(transform, 'Valid')
     TrainLoader = DataLoader(dataset=train_data,
+<<<<<<< HEAD
                             batch_size=256, num_workers=40,
+=======
+                            batch_size=196, num_workers=16,
+>>>>>>> 157ad8c368c323894a7771af5ec784761f2f4e9e
                             shuffle=True)
     ValidLoader = DataLoader(dataset=valid_data,
                             batch_size=128, num_workers=40,

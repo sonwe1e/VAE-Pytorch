@@ -21,7 +21,11 @@ class PL(pl.LightningModule):
         x, y = batch
         output = self.model(x, y)
         x_hat, x, mu, logvar = output
+<<<<<<< HEAD
         loss = F.mse_loss(x_hat, x, reduction='sum') -0.1 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+=======
+        loss = F.mse_loss(x_hat, x, reduction='sum') -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+>>>>>>> 157ad8c368c323894a7771af5ec784761f2f4e9e
         self.log('train_loss', loss)
         return loss
 
@@ -29,7 +33,11 @@ class PL(pl.LightningModule):
         x, y = batch
         output = self.model(x, y)
         x_hat, x, mu, logvar = output
+<<<<<<< HEAD
         loss = F.mse_loss(x_hat, x, reduction='sum') -0.1 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+=======
+        loss = F.mse_loss(x_hat, x, reduction='sum') -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+>>>>>>> 157ad8c368c323894a7771af5ec784761f2f4e9e
         # class_feature = torch.arange(10).reshape(10, 1).cuda()
         # class_feature = label2onehot(class_feature, 10)
         class_feature = torch.sign(torch.randn((10, 40, 1, 1), device=self.device)-0.7)
