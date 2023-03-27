@@ -5,12 +5,14 @@ import torch.nn as nn
 class BasicBlock(nn.Module):
     def __init__(self, in_channel, out_channel) -> None:
         super().__init__()
-        self.conv1 = nn.Conv2d(in_channel, out_channel, kernel_size=3, stride=1, padding=1)
+        self.conv1 = nn.Conv2d(in_channel, out_channel, kernel_size=1, stride=1, padding=0)
         self.norm = nn.BatchNorm2d(out_channel)
-        self.act = nn.LeakyReLU(0.2, inplace=True)
-        self.conv2 = nn.Conv2d(out_channel, out_channel, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(out_channel, out_channel, kernel_size=5, stride=1, padding=2)
         self.norm2 = nn.BatchNorm2d(out_channel)
+        self.conv3 = nn.Conv2d(out_channel, out_channel, kernel_size=1, stride=1, padding=0)
+        self.norm3 = nn.BatchNorm2d(out_channel)
         self.alpha = nn.Parameter(torch.zeros(1))
+        self.act = nn.SiLU(inplace=True)
         
     def forward(self, x):
         res = x
@@ -19,6 +21,9 @@ class BasicBlock(nn.Module):
         x = self.act(x)
         x = self.conv2(x)
         x = self.norm2(x)
+        x = self.act(x)
+        x = self.conv3(x)
+        x = self.norm3(x)
         x = self.act(x + self.alpha * res)
         return x
 
@@ -37,20 +42,20 @@ class FaceVAE(nn.Module):
     def __init__(self, Attr=40):
         super(FaceVAE, self).__init__()
         self.encoder = timm.create_model('resnet18', pretrained=True, features_only=True)
-        channel_list = [Attr*4, 256, 128, 64, 32, 16]
+        channel_list = [Attr*4, 512, 256, 128, 64, 32]
         self.decoder = nn.Sequential(
             nn.Conv2d(Attr*4, channel_list[1], 1, 1, 0),
-            nn.PixelShuffle(2),
+            nn.ConvTranspose2d(channel_list[1], channel_list[1] // 4, 4, 2, 1),
+            nn.Conv2d(channel_list[1] // 4, channel_list[1] // 4, 3, 1, 1),
+            nn.BatchNorm2d(channel_list[1] // 4),
+            nn.SiLU(inplace=True),
+            nn.ConvTranspose2d(channel_list[1] // 4, channel_list[1] // 4, 4, 2, 1),
             nn.Conv2d(channel_list[1] // 4, channel_list[1], 3, 1, 1),
-            nn.InstanceNorm2d(channel_list[1]),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.PixelShuffle(2),
-            nn.Conv2d(channel_list[1] // 4, channel_list[1], 3, 1, 1),
-            nn.InstanceNorm2d(channel_list[1]),
-            nn.LeakyReLU(0.2, inplace=True),
-            UpBlock(channel_list[1], channel_list[1]),
+            nn.BatchNorm2d(channel_list[1]),
+            nn.SiLU(inplace=True),
             UpBlock(channel_list[1], channel_list[1]),
             UpBlock(channel_list[1], channel_list[2]),
+            UpBlock(channel_list[2], channel_list[2]),
             UpBlock(channel_list[2], channel_list[3]),
             UpBlock(channel_list[3], channel_list[4]),
             UpBlock(channel_list[4], channel_list[5]),
@@ -75,9 +80,9 @@ class FaceVAE(nn.Module):
         return z, data, mu, logvar
     
 if __name__ == '__main__':
-    model = FaceVAE()
-    x = torch.rand(2, 3, 256, 256)
-    y = torch.rand(2, 40)
+    model = FaceVAE().cuda()
+    x = torch.rand(2, 3, 256, 256, device='cuda')
+    y = torch.rand(2, 40, device='cuda')
     out = model(x, y)
     for i in out:
         print(i.shape)
