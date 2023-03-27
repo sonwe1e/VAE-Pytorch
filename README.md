@@ -30,14 +30,20 @@ The model was trained on the MNIST dataset, which is a dataset of hand-written d
 #### Resample From Hidden Feature Example in Validation
 ![Image Description](Example/FromZ/0.png)
 ![Image Description](Example/FromZ/1.png)
+![Image Description](Example/FromZ/2.png)
+![Image Description](Example/FromZ/3.png)
 
 #### Resample From Hidden Feature Example
-![Image Description](Example/8/0.png)
-![Image Description](Example/8/1.png)
+![Image Description](Example/Prediction/0.png)
+![Image Description](Example/Prediction/1.png)
+![Image Description](Example/Prediction/2.png)
+![Image Description](Example/Prediction/3.png)
 
 #### Reconstructed From Origin Example
 ![Image Description](Example/FromX/0.png)
 ![Image Description](Example/FromX/1.png)
+![Image Description](Example/FromX/2.png)
+![Image Description](Example/FromX/3.png)
 
 ### Code 
 | files | description |
