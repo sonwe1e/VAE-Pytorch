@@ -22,6 +22,9 @@ def get_attr():
 transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize((256, 256)),
+    transforms.RandomHorizontalFlip(),
+    # 用于人脸识别的数据增强
+    # transforms.ColorJitter(brightness=0.5, contrast=0.5, saturation=0.5, hue=0.5),
     transforms.ToTensor()])
 
 def get_digit_data():
@@ -81,11 +84,7 @@ def get_face_data():
     train_data = FaceDataset(transform, 'Train')
     valid_data = FaceDataset(transform, 'Valid')
     TrainLoader = DataLoader(dataset=train_data,
-<<<<<<< HEAD
-                            batch_size=256, num_workers=40,
-=======
-                            batch_size=196, num_workers=16,
->>>>>>> 157ad8c368c323894a7771af5ec784761f2f4e9e
+                            batch_size=84, num_workers=40,
                             shuffle=True)
     ValidLoader = DataLoader(dataset=valid_data,
                             batch_size=128, num_workers=40,
