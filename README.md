@@ -1,54 +1,33 @@
-# CVAE-Exercise
+# VAE-Exercise
 Implementation for VAE in PyTorch
 
 ### Conditional Variational Autoencoder (CVAE)
-This is an implementation of a Conditional Variational Autoencoder (CVAE) using TensorFlow. A CVAE is a type of neural network that is trained to generate new samples from a given set of input conditions. It is a type of generative model that is particularly useful for applications such as image generation, where the model is trained to generate new images based on a set of input conditions, such as image labels.
+At first, I was just playing around with VAEs and later attempted facial attribute editing using CVAE. The more I experimented with VAEs, the more I found the tasks of generating images to be intriguing. I learned about various VAE network architectures and studied [AntixK's VAE library](https://github.com/AntixK/PyTorch-VAE) on Github, which inspired me to create my own VAE library. Thus, I decided to use [AntixK's](https://github.com/AntixK) template to develop my own VAE library.
 
 ### ToDo List
 
-- [ ] The quality of the generated faces is not good enough, and we need to improve the quality of the face reconstruction
-- [ ] The attribute editing functionality is not yet complete. For example, I can set the male attribute to 1 and it works. But when I set the bald attribute to 1, it doesn't generate a bald person
+- [ ] Beta-VAE
+- [ ] VQ-VAE
 
 ### Done List
 
-- [x] Completed the generation of handwritten digits using MNIST and the results are not too bad. I used only a fully connected network
-- [x] Dealing with the issue that images generated from normal distribution sampling are almost unrecognizable. (The reason is that I set all attribute values to 1, which makes it difficult for CVAE to generate a face that has all the attributes)
-
-
-### Dependencies
-This implementation requires the following dependencies:
-
-Python 3.9
-Pytorch
-NumPy
-opencv-python
+- [x] VAE
 
 ### Dataset
-The model was trained on the MNIST dataset, which is a dataset of hand-written digits.
+The model was trained on the CelebA dataset
 
 ### Example
-#### Resample From Hidden Feature Example in Validation
-![Image Description](Example/FromZ/0.png)
-![Image Description](Example/FromZ/1.png)
-![Image Description](Example/FromZ/2.png)
-
-#### Resample From Hidden Feature Example
-![Image Description](Example/Prediction/0.png)
-![Image Description](Example/Prediction/1.png)
-![Image Description](Example/Prediction/2.png)
-
-#### Reconstructed From Origin Example
-![Image Description](Example/FromX/0.png)
-![Image Description](Example/FromX/1.png)
-![Image Description](Example/FromX/2.png)
+#### Sample from Gaussian distribution
+![VAE](asserts/VAE/results.png)
 
 ### Code 
-| files | description |
+| file or folder | description |
 | --- | --- |
-| Data.py | Download data and define data loader |
-| Model.py | Define Conditional Variation AutoEncoder |
-| Predict.py | Load state dict and predict specific digit images |
-| Train.py | Train network and save best parameter |
-| utils.py | Define label2onehot function and others functions |
-| FromX-FromZ-8 | Folder for save intermediate image and prediction |
-| checkpoints | trained checkpoints |
+| dataset.py | Define data loader and data augmentation |
+| models | Define class for VAE model contain loss, encoder, decoder and sample |
+| predict.py | Load state dict and reconstruct image from latent code |
+| run.py | Train network and save best parameter |
+| utils.py | Tools for train or infer |
+| checkpoints | Best and last checkpoints |
+| config | Hyperparameter for project |
+| asserts | Saving example for each VAE model |
