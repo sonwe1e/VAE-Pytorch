@@ -28,3 +28,17 @@ __pycache__/utils.cpython-39.pyc
 __pycache__/Data.cpython-39.pyc
 .vscode/settings.json
 __pycache__/Data.cpython-39.pyc
+wandb/debug-cli.sonwe1e.log
+wandb/debug-internal.log
+wandb/debug.log
+wandb/latest-run
+wandb/settings
+wandb/offline-run-20230412_173401-6brx8b5w/run-6brx8b5w.wandb
+wandb/offline-run-20230412_173401-6brx8b5w/files/conda-environment.yaml
+wandb/offline-run-20230412_173401-6brx8b5w/files/requirements.txt
+wandb/offline-run-20230412_173401-6brx8b5w/files/wandb-metadata.json
+wandb/offline-run-20230412_173401-6brx8b5w/files/wandb-summary.json
+wandb/offline-run-20230412_173401-6brx8b5w/logs/debug-internal.log
+wandb/offline-run-20230412_173401-6brx8b5w/logs/debug.log
+models/__pycache__/__init__.cpython-310.pyc
+models/__pycache__/vae.cpython-310.pyc

@@ -6,12 +6,6 @@ from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 from utils import get_attr
 
-transform = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((256, 256)),
-    transforms.RandomHorizontalFlip(),
-    transforms.ToTensor()])
-
 class FaceDataset(Dataset):
     def __init__(self, transform=None, mode='Train') -> None:
         super().__init__()

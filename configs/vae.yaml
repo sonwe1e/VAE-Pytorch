@@ -22,7 +22,8 @@ trainer_params:
   gpus: 'cuda:0'
   max_epochs: 100
 
-# logging_params:
-#   save_dir: "/checkpoints/"
-#   name: "VAE"
+logging_params:
+  ckpt_save_dir: "./checkpoints/VAE/"
+  img_save_dir: "./asserts/VAE/"
+  name: "VAE"
   

@@ -3,6 +3,7 @@ import torch
 import argparse
 import yaml
 from models import *
+from einops import rearrange
 
 device = 'cuda:0'
 # 加载模型
@@ -19,9 +20,10 @@ model = vae_models[config['model_params']['name']](**config['model_params']).to(
 
 
 # 生成隐变量数据
-b = 10
-model.load_state_dict(torch.load('checkpoints/VAE_best.pth'))
+b = 64
+model.load_state_dict(torch.load(config['logging_params']['ckpt_save_dir']+'best.pth'))
 model.eval()
-samples = model.sample(10, device)
-for i in range(b):
-    cv2.imwrite(f'{i:02d}.png', samples[i].permute(1, 2, 0).cpu().detach().numpy()*255)
+samples = model.sample(b, device)
+samples = samples.permute(0, 2, 3, 1).cpu().detach().numpy()*255
+samples = rearrange(samples, '(n1 n2) h w c -> (n1 h) (n2 w) c', n1=8)
+cv2.imwrite(config['logging_params']['img_save_dir']+f'results.png', samples)
