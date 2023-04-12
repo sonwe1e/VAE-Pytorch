@@ -1,7 +1,7 @@
 # VAE-Exercise
 Implementation for VAE in PyTorch
 
-### Conditional Variational Autoencoder (CVAE)
+### Variational Autoencoder (VAE)
 At first, I was just playing around with VAEs and later attempted facial attribute editing using CVAE. The more I experimented with VAEs, the more I found the tasks of generating images to be intriguing. I learned about various VAE network architectures and studied [AntixK's VAE library](https://github.com/AntixK/PyTorch-VAE) on Github, which inspired me to create my own VAE library. Thus, I decided to use [AntixK's](https://github.com/AntixK) template to develop my own VAE library.
 
 ### ToDo List
