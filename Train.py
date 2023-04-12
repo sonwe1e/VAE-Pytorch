@@ -61,12 +61,12 @@ if __name__ == '__main__':
         monitor='val_loss',
         dirpath='./checkpoints/',
         filename='cvae-{epoch:02d}-{val_loss:.2f}',
-        save_top_k=1,
+        save_top_k=5,
         mode='min',
     )
     trainer = pl.Trainer(max_epochs=1000, callbacks=[checkpoint_callback],
-                         accelerator='auto', devices=[0])
+                         accelerator='cpu', devices='auto')
     print('Start training...')
     trainer.fit(model, train_loader, val_loader,
-                # ckpt_path='checkpoints/cvae-epoch=91-val_loss=359209.84.ckpt'
+                ckpt_path='/media/sonwe1e/ade2775b-8298-bf46-9e1e-aa116abe4660/CVAE/checkpoints/cvae-epoch=102-val_loss=377410.28.ckpt'
                 )
