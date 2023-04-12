@@ -6,6 +6,7 @@ from models import *
 import wandb
 import multiprocessing as mp
 from dataset import get_face_data
+from predict import predict
 torch.set_float32_matmul_precision('high')
 
 if __name__ == '__main__':
@@ -81,7 +82,8 @@ if __name__ == '__main__':
             wandb.log({'valid_loss': valid_loss, 'valid_rec_loss': valid_rec_loss, 'valid_kdl_loss': valid_kdl_loss})
             # samples = model.sample(10, config['trainer_params']['gpus'])
             if valid_loss < best_loss:
-                torch.save(model.state_dict(), f'./checkpoints/{config["model_params"]["name"]}_best.pth')
+                torch.save(model.state_dict(), f'./checkpoints/{config["model_params"]["name"]}/best.pth')
                 best_loss = valid_loss
                 wandb.log({'best_loss': best_loss})
-    torch.save(model.state_dict(), f'./checkpoints/{config["model_params"]["name"]}_last.pth')
+    torch.save(model.state_dict(), f'./checkpoints/{config["model_params"]["name"]}/last.pth')
+    predict(config)

@@ -131,14 +131,15 @@ class VAE(nn.Module):
         loss = recons_loss + kld_weight * kld_loss
         return {'loss': loss, 'reconstruction_loss':recons_loss.detach(), 'kdl_loss':-kld_loss.detach()}
 
-    def sample(self, num_samples, current_device, **kwargs):
+    def sample(self, num_samples, current_device, z=None, **kwargs):
         """
         从编码的分布中采样并重建图像
         :param num_samples: 重建样本的数量
         :param current_device: 进行采样的网络
         :return: 图像
         """
-        z = torch.randn(num_samples, self.latent_dim)
+        if z == None:
+            z = torch.randn(num_samples, self.latent_dim)
         z = z.to(current_device)
         samples = self.decode(z)
         return samples
