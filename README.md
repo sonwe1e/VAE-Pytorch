@@ -18,7 +18,9 @@ The model was trained on the CelebA dataset
 
 ### Example
 #### Sample from Gaussian distribution
-![VAE](asserts/VAE/results.png)
+| model | example |
+| --- | --- |
+| VAE | ![VAE](asserts/VAE/results.png)  |
 
 ### Code 
 | file or folder | description |
