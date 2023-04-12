@@ -1,0 +1,28 @@
+model_params:
+  name: 'VAE'
+  in_channels: 3
+  latent_dim: 128
+
+
+data_params:
+  data_path: "Data/"
+  batch_size: 512
+  patch_size: 64
+  num_workers: 4
+
+
+exp_params:
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  scheduler_gamma: 0.95
+  kld_weight: 0.00025
+  manual_seed: 413
+
+trainer_params:
+  gpus: 'cuda:0'
+  max_epochs: 100
+
+# logging_params:
+#   save_dir: "/checkpoints/"
+#   name: "VAE"
+  
